@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # CODETECH Internship Tasks
 
 This repository contains all internship tasks completed during the CODETECH Full Stack Development Internship Program using modern web technologies and development tools.
@@ -39,3 +40,6 @@ An advanced SaaS-style productivity tracking assistant similar to RescueTime and
 * **Databases:** MongoDB, Mongoose, Offline Local JSON DB fallbacks
 * **APIs:** Chrome Extension APIs (Idle, Tabs, Storage, Alarms, Notifications), Open-Meteo REST API
 * **Security & Authentication:** JWT Auths, CORS controllers, CORS sanitizers
+=======
+# Codetech
+>>>>>>> 14e93ac33ccb67c18a6519b9317e9a0378e3e94c
