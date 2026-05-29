@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stay Focused - FocusFlow</title>
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #030712;
+      --panel-bg: rgba(17, 24, 39, 0.7);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-indigo: #6366f1;
+      --accent-purple: #a855f7;
+      --productive: #10b981;
+      --unproductive: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Cosmic Gradient Backgrounds */
+    .glow-purple {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--accent-purple) 0%, transparent 60%);
+      opacity: 0.12;
+      filter: blur(50px);
+      top: -100px;
+      left: -100px;
+      z-index: 1;
+    }
+
+    .glow-indigo {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, var(--accent-indigo) 0%, transparent 60%);
+      opacity: 0.12;
+      filter: blur(50px);
+      bottom: -150px;
+      right: -150px;
+      z-index: 1;
+    }
+
+    /* Glass Card */
+    .block-card {
+      max-width: 460px;
+      width: 90%;
+      background: var(--panel-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      z-index: 10;
+      position: relative;
+    }
+
+    .icon-lock {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 1.5rem auto;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+      color: #fff;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.8rem;
+      background: linear-gradient(135deg, #ffffff, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+    }
+
+    .blocked-site {
+      display: inline-block;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: var(--unproductive);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin: 0 4px;
+    }
+
+    /* Quotes Deck */
+    .quote-box {
+      border-left: 3px solid var(--accent-indigo);
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1rem;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .quote-text {
+      font-style: italic;
+      color: var(--text);
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+      line-height: 1.4;
+    }
+
+    .quote-author {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Action Buttons */
+    .action-deck {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-purple"></div>
+  <div class="glow-indigo"></div>
+
+  <div class="block-card">
+    <div class="icon-lock">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    </div>
+    
+    <h1>Take a Breath</h1>
+    <p>You attempted to visit <span class="blocked-site" id="blockedDomainName">Social Media</span>, which is currently blocked to maintain your deep focus.</p>
+
+    <!-- Motivational Quotes -->
+    <div class="quote-box">
+      <p class="quote-text" id="quoteText">"Focus is a muscle, and you build it by choosing to stay focused."</p>
+      <div class="quote-author" id="quoteAuthor">Deep Work Pro</div>
+    </div>
+
+    <!-- Controls -->
+    <div class="action-deck">
+      <button class="btn btn-primary" id="btnBackToWork">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 14 20 9 15 4"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/>
+        </svg>
+        <span>Go Back to Working</span>
+      </button>
+      
+      <a href="http://localhost:3000" target="_blank" class="btn btn-secondary">
+        <span>View Analytics Dashboard</span>
+      </a>
+    </div>
+  </div>
+
+  <script src="blocked.js"></script>
+</body>
+</html>

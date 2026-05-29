@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slateDark-bg text-slate-100 font-outfit antialiased selection:bg-focusFlow-indigo/30 selection:text-white overflow-x-hidden;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+}
+
+/* Glassmorphism Premium Styling Utilities */
+.glass-panel {
+  @apply bg-slateDark-card backdrop-blur-xl border border-slateDark-border shadow-2xl transition-all duration-300;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-panel-hover {
+  @apply hover:border-slate-700/60 hover:shadow-focusFlow-indigo/5 hover:translate-y-[-2px] transition-all duration-300;
+}
+
+.neon-btn {
+  @apply relative overflow-hidden transition-all duration-300;
+}
+
+.neon-btn::after {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-focusFlow-indigo to-focusFlow-purple opacity-0 hover:opacity-100 transition-opacity duration-300 -z-10;
+}
+
+/* Glowing text styling */
+.neon-glow-text {
+  text-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+/* Premium Webkit scrollbars styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(7, 9, 14, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.4);
+}
+
+/* Pulse keyframes for focus rings */
+@keyframes ring-glow {
+  0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+}
+
+.ring-pulse {
+  animation: ring-glow 2s infinite;
+}

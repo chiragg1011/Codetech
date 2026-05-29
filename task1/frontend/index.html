@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SkyFlow - Premium responsive weather web application with real-time dynamic forecasts and live API integrations.">
+  <title>SkyFlow | Premium Weather App</title>
+  <!-- Google Fonts for Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Dynamic Background Wrapper -->
+  <div class="app-container clear-sky">
+    <div class="overlay"></div>
+
+    <div class="content-wrapper">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="brand">
+          <!-- Dynamic Logo SVG -->
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M17.5 19A3.5 3.5 0 0 0 21 15.5c0-2.79-2.54-4.5-5-4.5-.42 0-.83.05-1.22.15A7 7 0 0 0 3 11.5c0 3.6 2.4 6.5 6 6.5" />
+            <path d="M12 2v2M4.93 4.93l1.41 1.41M2 12h2M6.34 17.66l-1.41 1.41M12 20v2M17.66 17.66l1.41 1.41M20 12h2M19.07 4.93l-1.41 1.41" />
+          </svg>
+          <h1>SkyFlow</h1>
+        </div>
+
+        <!-- Controls (Search + Toggle) -->
+        <div class="header-controls">
+          <!-- Search System -->
+          <div class="search-system">
+            <form id="search-form" class="search-form" autocomplete="off">
+              <div class="input-wrapper">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input 
+                  type="text" 
+                  id="search-input" 
+                  placeholder="Search for a city..." 
+                  aria-label="Search for a city"
+                  required
+                >
+                <button type="button" id="geo-btn" class="geo-btn" title="Use current location">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+            </form>
+            <!-- Autocomplete suggestions dropdown -->
+            <div id="suggestions-dropdown" class="suggestions-dropdown hidden"></div>
+          </div>
+
+          <!-- Unit Toggle Button -->
+          <div class="toggle-container">
+            <span class="unit-label">Metric</span>
+            <button id="unit-toggle" class="unit-toggle-btn" aria-label="Toggle units" title="Toggle between Metric and Imperial">
+              <span class="toggle-slider"></span>
+              <span class="toggle-text-left">°C</span>
+              <span class="toggle-text-right">°F</span>
+            </button>
+            <span class="unit-label">Imperial</span>
+          </div>
+
+          <!-- Theme Toggle Button -->
+          <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme" title="Toggle between Dark and Light mode">
+            <!-- Sun Icon (visible in Dark Mode) -->
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <!-- Moon Icon (visible in Light Mode) -->
+            <svg class="moon-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Weather Dashboard -->
+      <main class="dashboard">
+        <!-- Error State Card (Hidden by Default) -->
+        <section id="error-card" class="glass-card error-card hidden">
+          <div class="error-illustration">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <h2 id="error-title">City Not Found</h2>
+          <p id="error-message">We couldn't find the city you searched for. Please double check the spelling and try again.</p>
+          <button id="error-close-btn" class="primary-btn">Try Again</button>
+        </section>
+
+        <!-- Weather Content (Active State) -->
+        <div id="dashboard-content" class="dashboard-grid">
+          
+          <!-- Column 1: Primary Weather Summary -->
+          <section class="glass-card main-weather-card">
+            <!-- Loading skeleton for main weather -->
+            <div class="skeleton-wrapper main-skeleton hidden">
+              <div class="skeleton skeleton-title"></div>
+              <div class="skeleton skeleton-subtitle"></div>
+              <div class="skeleton skeleton-icon"></div>
+              <div class="skeleton skeleton-temp"></div>
+              <div class="skeleton skeleton-desc"></div>
+            </div>
+
+            <!-- Actual content -->
+            <div class="main-weather-content">
+              <div class="location-info">
+                <svg class="pin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <div class="location-text">
+                  <h2 id="city-name">London</h2>
+                  <span id="country-name">United Kingdom</span>
+                </div>
+              </div>
+              <span id="current-date" class="current-date">Thursday, May 28, 2026</span>
+
+              <div class="weather-display">
+                <div id="weather-icon-container" class="weather-icon-container">
+                  <!-- Injected SVG -->
+                </div>
+                <div class="temp-container">
+                  <span id="main-temp" class="main-temp">20</span>
+                  <span id="main-unit" class="main-unit">°C</span>
+                </div>
+              </div>
+
+              <div class="weather-meta">
+                <p id="weather-description" class="weather-description">Partly Cloudy</p>
+                <div class="feels-like-container">
+                  <span>Feels like: </span>
+                  <strong id="feels-like-temp">19</strong>
+                  <strong class="sub-unit">°C</strong>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Column 2: Meteorological Details Grid & 5-Day Forecast -->
+          <div class="details-and-forecast">
+            
+            <!-- Weather Details Grid -->
+            <section class="glass-card details-card">
+              <h3>Weather Details</h3>
+              
+              <!-- Loading skeleton for details -->
+              <div class="skeleton-wrapper details-skeleton hidden">
+                <div class="skeleton-grid">
+                  <div class="skeleton skeleton-detail-card"></div>
+                  <div class="skeleton skeleton-detail-card"></div>
+                  <div class="skeleton skeleton-detail-card"></div>
+                  <div class="skeleton skeleton-detail-card"></div>
+                  <div class="skeleton skeleton-detail-card"></div>
+                  <div class="skeleton skeleton-detail-card"></div>
+                </div>
+              </div>
+
+              <!-- Actual content -->
+              <div class="details-grid">
+                <!-- Humidity -->
+                <div class="detail-item" hover-effect>
+                  <div class="detail-icon humidity-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-11-7-11S5 10.7 5 15a7 7 0 0 0 7 7z"/>
+                    </svg>
+                  </div>
+                  <div class="detail-text">
+                    <span class="detail-label">Humidity</span>
+                    <span id="humidity-val" class="detail-value">64%</span>
+                  </div>
+                </div>
+
+                <!-- Wind Speed -->
+                <div class="detail-item" hover-effect>
+                  <div class="detail-icon wind-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>
+                    </svg>
+                  </div>
+                  <div class="detail-text">
+                    <span class="detail-label">Wind Speed</span>
+                    <span id="wind-val" class="detail-value">12 km/h</span>
+                  </div>
+                </div>
+
+                <!-- UV Index -->
+                <div class="detail-item" hover-effect>
+                  <div class="detail-icon uv-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="5"></circle>
+                      <line x1="12" y1="1" x2="12" y2="3"></line>
+                      <line x1="12" y1="21" x2="12" y2="23"></line>
+                      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                      <line x1="1" y1="12" x2="3" y2="12"></line>
+                      <line x1="21" y1="12" x2="23" y2="12"></line>
+                      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                  </div>
+                  <div class="detail-text">
+                    <span class="detail-label">UV Index</span>
+                    <span id="uv-val" class="detail-value">4 (Mod)</span>
+                  </div>
+                </div>
+
+                <!-- Pressure -->
+                <div class="detail-item" hover-effect>
+                  <div class="detail-icon pressure-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="6" x2="12" y2="12"></line>
+                      <line x1="12" y1="12" x2="16" y2="10"></line>
+                    </svg>
+                  </div>
+                  <div class="detail-text">
+                    <span class="detail-label">Pressure</span>
+                    <span id="pressure-val" class="detail-value">1013 hPa</span>
+                  </div>
+                </div>
+
+                <!-- Sunrise -->
+                <div class="detail-item" hover-effect>
+                  <div class="detail-icon sunrise-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 22H6M12 18V2M12 2l-4 4M12 2l4 4M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12z"/>
+                    </svg>
+                  </div>
+                  <div class="detail-text">
+                    <span class="detail-label">Sunrise</span>
+                    <span id="sunrise-val" class="detail-value">05:08 AM</span>
+                  </div>
+                </div>
+
+                <!-- Sunset -->
+                <div class="detail-item" hover-effect>
+                  <div class="detail-icon sunset-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 22H6M12 2v16M12 18l-4-4M12 18l4-4M12 10a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/>
+                    </svg>
+                  </div>
+                  <div class="detail-text">
+                    <span class="detail-label">Sunset</span>
+                    <span id="sunset-val" class="detail-value">08:52 PM</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 5-Day Forecast Panel -->
+            <section class="glass-card forecast-card">
+              <h3>5-Day Forecast</h3>
+
+              <!-- Loading skeleton for forecast -->
+              <div class="skeleton-wrapper forecast-skeleton hidden">
+                <div class="skeleton-forecast-list">
+                  <div class="skeleton skeleton-forecast-item"></div>
+                  <div class="skeleton skeleton-forecast-item"></div>
+                  <div class="skeleton skeleton-forecast-item"></div>
+                  <div class="skeleton skeleton-forecast-item"></div>
+                  <div class="skeleton skeleton-forecast-item"></div>
+                </div>
+              </div>
+
+              <!-- Actual Forecast Content -->
+              <div id="forecast-list" class="forecast-list">
+                <!-- Dynamically generated items will be appended here -->
+              </div>
+            </section>
+
+          </div>
+        </div>
+      </main>
+
+      <!-- App Footer -->
+      <footer class="app-footer">
+        <p>&copy; 2026 SkyFlow weather. Crafted as an Internship Project.</p>
+        <p class="api-credit">Powered by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo API</a> (No API Key Required)</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- JavaScript logic -->
+  <script src="script.js"></script>
+</body>
+</html>
