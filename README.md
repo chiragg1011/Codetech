@@ -40,5 +40,4 @@ An advanced SaaS-style productivity tracking assistant similar to RescueTime and
 * **APIs:** Chrome Extension APIs (Idle, Tabs, Storage, Alarms, Notifications), Open-Meteo REST API
 * **Security & Authentication:** JWT Auths, CORS controllers, CORS sanitizers
 =======
-# Codetech
->>>>>>> 14e93ac33ccb67c18a6519b9317e9a0378e3e94c
+
