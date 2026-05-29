@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # CODETECH Internship Tasks
 
 This repository contains all internship tasks completed during the CODETECH Full Stack Development Internship Program using modern web technologies and development tools.
